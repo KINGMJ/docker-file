@@ -14,7 +14,7 @@ RUN echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # Th
 
 # 安装 node v12.18.3 和 v8.11.2版本
 # 并设置默认版本为 v12.18.3
-
+# 安装 yarn
 RUN bash -c 'source $HOME/.nvm/nvm.sh && \
     nvm install 12.18.3 && \
     nvm install 8.11.2 && \
