@@ -19,33 +19,38 @@ services:
     depends_on:
       - php5.4
       - php7.2
+      - php7.3
+
   php5.4:
     build: './php5.4'
     restart: always
     container_name: php54-fpm
     networks:
       - php-demo
-    ports:
-      - "9540:9000"
-    expose:
-      - 9000
     volumes:
       - /Users/jerry.mei/MyCode/php-demo/:/data:rw
       - ./php5.4/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php5.4/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
       - ./php5.4/log:/var/log/phplog/:rw
+
   php7.2:
     build: './php7.2'
     restart: always
     container_name: php72-fpm
     networks:
       - php-demo
-    ports:
-      - "9720:9000"
-    expose:
-      - 9000
     volumes:
       - /Users/jerry.mei/MyCode/php-demo/:/data:rw
       - ./php7.2/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php7.2/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
       - ./php7.2/log:/var/log/phplog/:rw
+
+  php7.3:
+    build: './php7.3'
+    restart: always
+    container_name: php73-fpm
+    networks:
+      - php-demo
+    volumes:
+      - /Users/jerry.mei/MyCode/php-demo/:/data:rw
+      - ./php7.3/log:/var/log/phplog/:rw
