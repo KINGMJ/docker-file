@@ -54,3 +54,21 @@ services:
     volumes:
       - /Users/jerry.mei/MyCode/php-demo/:/data:rw
       - ./php7.3/log:/var/log/phplog/:rw
+
+  redis:
+    image: redis:5.0
+    restart: always
+    container_name: redis5
+    networks:
+      - php-demo
+    command: redis-server --requirepass 123456
+    ports:
+      - "6379:6379"
+    volumes:
+      - php7-nginx-mysql-redis-data:/data:rw
+      - ./redis5.0:/usr/local/etc/redis:rw
+
+
+volumes:
+  php7-nginx-mysql-redis-data:
+
