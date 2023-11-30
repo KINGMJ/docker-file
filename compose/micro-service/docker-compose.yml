@@ -18,6 +18,20 @@ services:
     networks:
       - micro-mall
 
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - micro-mall-pg-data:/var/lib/postgresql/data
+    networks:
+      - micro-mall
+
 networks:
   micro-mall:
 
+volumes:
+  micro-mall-pg-data:
