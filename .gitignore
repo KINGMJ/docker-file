@@ -1,0 +1,3 @@
+*.log
+etcd
+.DS_Store
