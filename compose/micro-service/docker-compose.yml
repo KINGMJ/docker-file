@@ -1,37 +1,57 @@
 version: "3.8"
 
 services:
-  Etcd:
-    image: "bitnami/etcd:${ETCD_VERSION}"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    privileged: true
-    volumes:
-      - ./etcd/data:/bitnami/etcd/data
-    environment:
-      - ALLOW_NONE_AUTHENTICATION=yes
-    ports:
-      - 2379:2379
-      - 2380:2380
-    networks:
-      - micro-mall
+  # Etcd:
+  #   platform: linux/x86_64 # m1 芯片需要设置 platform
+  #   image: "bitnami/etcd:${ETCD_VERSION}"
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #   privileged: true
+  #   volumes:
+  #     - ./etcd/data:/bitnami/etcd/data
+  #   environment:
+  #     - ALLOW_NONE_AUTHENTICATION=yes
+  #   ports:
+  #     - 2379:2379
+  #     - 2380:2380
+  #   networks:
+  #     - micro-mall
 
-  postgres:
-    image: postgres:latest
+  # postgres:
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - micro-mall-pg-data:/var/lib/postgresql/data
+  #   networks:
+  #     - micro-mall
+
+  mysql8.2:
+    platform: linux/x86_64 # m1 芯片需要设置 platform
+    image: mysql:8.2.0
     restart: always
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - 5432:5432
-    volumes:
-      - micro-mall-pg-data:/var/lib/postgresql/data
     networks:
       - micro-mall
+    ports:
+      - "3306:3306"
+    command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - micro-mall-mysql-data:/var/lib/mysql
+      - ./mysql8.2/logs:/var/log/mysql
+      - ./mysql8.2/conf/my.cnf:/etc/mysql/conf.d/my.cnf:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - "LANG=C.UTF-8"
+      - TZ=Asia/Shanghai
 
 networks:
   micro-mall:
 
 volumes:
-  micro-mall-pg-data:
+  # micro-mall-pg-data:
+  micro-mall-mysql-data:

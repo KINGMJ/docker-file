@@ -16,6 +16,8 @@ elk 的容器编排
 
 微服务容器编排。
 
+Ectd 服务在 mac arm 架构安装会导致 Error "listen tcp 127.0.0.1:2380: bind: address already in use" when running ETCD container 问题
+
 `etcdkeeper.sh` 启动一个 etcd 的可视化管理项目。
 
 ## bash
