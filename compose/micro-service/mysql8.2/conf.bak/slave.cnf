@@ -13,8 +13,8 @@
 
 # binlog配置
 binlog_format=row
-log-bin=master-bin
-server_id=1
+log-bin=slave-bin
+server_id=2
 
 #
 # Remove leading # to set options mainly useful for reporting servers.
