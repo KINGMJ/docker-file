@@ -11,10 +11,22 @@
 # changes to the binary log between backups.
 # log_bin
 
-# binlog配置
+# binlog配置，主从复制
 binlog_format=row
 log-bin=slave-bin
-server_id=2
+binlog-ignore-db=mysql
+binlog-ignore-db=information_schema
+
+# 开启GTID 模式
+gtid-mode=on
+enforce-gtid-consistency=true
+
+# 开启半同步复制
+plugin-load="rpl_semi_sync_slave=semisync_slave.so"
+rpl_semi_sync_slave_enabled=1
+
+# server id 配置
+server_id=3
 
 #
 # Remove leading # to set options mainly useful for reporting servers.
