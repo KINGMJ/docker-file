@@ -49,9 +49,26 @@ services:
       - "LANG=C.UTF-8"
       - TZ=Asia/Shanghai
 
+  redis:
+    image: redis:5.0
+    restart: always
+    container_name: micro-redis
+    networks:
+      - micro-mall
+    command: redis-server --requirepass 123456
+    ports:
+      - "6379:6379"
+    volumes:
+      - micro-mall-redis-data:/data:rw
+      - ./redis5.0:/usr/local/etc/redis:rw
+    environment:
+      - "LANG=C.UTF-8"
+      - TZ=Asia/Shanghai
+
 networks:
   micro-mall:
 
 volumes:
   # micro-mall-pg-data:
   micro-mall-mysql-data:
+  micro-mall-redis-data:
