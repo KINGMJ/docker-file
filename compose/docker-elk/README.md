@@ -7,7 +7,7 @@ elastic search docker 部署项目
 #### 安装教程
 
 1. `.env`修改各种配置
-2. 网络需要设置为：talentkey-docker-deploy_talentkey
+2. 网络需要设置为：指定的网络
 
 #### 问题：
 
