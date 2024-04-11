@@ -1,3 +1,4 @@
 *.log
 etcd
 .DS_Store
+compose/micro-service/elastic7.13.4/data
