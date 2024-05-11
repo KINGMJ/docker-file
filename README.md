@@ -36,3 +36,16 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 ## bash
 
 直接通过 shell 命令启动的 docker 程序
+
+
+## 项目端口占用
+
+- etcd: 2379 2380
+- etcdkeeper: 8888
+- postgresql: 5432
+- mysql: 3306
+- redis: 6379
+- elasticsearch: 9200 9300
+- kibana: 5601
+- kafka-ui: 8080
+- rabbitmq: 8081
