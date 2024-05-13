@@ -17,6 +17,8 @@ elk 的容器编排，支持集群部署，官方示例
 微服务容器编排。`docker-compose-dev.yml`为项目基础设施，包括：etcd、mysql、postgresql、redis、elk、jaeger、rabbitmq、kafka 等等。
 `docker-compose.yml` 为 go-zero 的微服务项目部署，包括 rpc 服务、api 服务以及其他语言，比如 php 的网关服务。
 
+运行：`docker-compose -f docker-compose-dev.yml up -d`
+
 ### ETCD
 
 Ectd 服务在 mac arm 架构安装会导致 Error "listen tcp 127.0.0.1:2380: bind: address already in use" when running ETCD container 问题。目前先在非 arm 架构部署，或者使用 k8s 里面部署的 etcd 服务。后面再解决
