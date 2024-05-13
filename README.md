@@ -14,7 +14,7 @@ elk 的容器编排，支持集群部署，官方示例
 
 ## micro-service
 
-微服务容器编排。`docker-compose-dev.yml`为项目基础设施，包括：etcd、mysql、postgresql、redis、elk、jaeger 等等。
+微服务容器编排。`docker-compose-dev.yml`为项目基础设施，包括：etcd、mysql、postgresql、redis、elk、jaeger、rabbitmq、kafka 等等。
 `docker-compose.yml` 为 go-zero 的微服务项目部署，包括 rpc 服务、api 服务以及其他语言，比如 php 的网关服务。
 
 ### ETCD
@@ -28,6 +28,8 @@ Ectd 服务在 mac arm 架构安装会导致 Error "listen tcp 127.0.0.1:2380: b
 ### MySQL
 
 mysql 支持主从复制方案，配置文件在`conf.bak`里面
+
+【注意】：第一次启动需要注释掉mysql 配置文件卷的映射，不然会初始化失败
 
 ### Postgresql
 
@@ -48,4 +50,4 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 - elasticsearch: 9200 9300
 - kibana: 5601
 - kafka-ui: 8080
-- rabbitmq: 8081
+- rabbitmq: 5672 8081（ui）
