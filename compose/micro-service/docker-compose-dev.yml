@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   Etcd:
     platform: linux/x86_64 # m1 芯片需要设置 platform
@@ -18,7 +16,7 @@ services:
       - 2379:2379
       - 2380:2380
     networks:
-      - micro-mall
+      - micro-svc
 
   postgres:
     image: postgres:latest
@@ -29,9 +27,9 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - micro-mall-pg-data:/var/lib/postgresql/data
+      - micro-svc-pg-data:/var/lib/postgresql/data
     networks:
-      - micro-mall
+      - micro-svc
 
   mysql8.2:
     platform: linux/x86_64 # m1 芯片需要设置 platform
@@ -39,12 +37,12 @@ services:
     container_name: micro-mysql
     restart: always
     networks:
-      - micro-mall
+      - micro-svc
     ports:
       - "3306:3306"
     command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - micro-mall-mysql-data:/var/lib/mysql
+      - micro-svc-mysql-data:/var/lib/mysql
       - ./mysql8.2/logs:/var/log/mysql
       - ./mysql8.2/conf/my.cnf:/etc/mysql/conf.d/my.cnf:rw
     environment:
@@ -57,12 +55,12 @@ services:
     restart: always
     container_name: micro-redis
     networks:
-      - micro-mall
+      - micro-svc
     command: redis-server --requirepass 123456
     ports:
       - "6379:6379"
     volumes:
-      - micro-mall-redis-data:/data:rw
+      - micro-svc-redis-data:/data:rw
       - ./redis5.0:/usr/local/etc/redis:rw
     environment:
       - "LANG=C.UTF-8"
@@ -86,9 +84,9 @@ services:
       - "9200:9200"
       - "9300:9300"
     networks:
-      - micro-mall
+      - micro-svc
 
-  # 查看elasticsearch数据 - Kibana to view Elasticsearch data
+  # 查看 elasticsearch 数据 - Kibana to view Elasticsearch data
   kibana:
     image: docker.elastic.co/kibana/kibana:7.13.4
     container_name: micro-kibana
@@ -101,7 +99,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - micro-mall
+      - micro-svc
 
   # jaeger链路追踪 — Jaeger for tracing
   jaeger:
@@ -124,12 +122,12 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - micro-mall
+      - micro-svc
 
   zoo1:
     image: confluentinc/cp-zookeeper:7.3.2
     hostname: zoo1
-    container_name: zoo1
+    container_name: micro-zoo1
     ports:
       - "2181:2181"
     environment:
@@ -137,12 +135,12 @@ services:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_SERVERS: zoo1:2888:3888
     networks:
-      - micro-mall
+      - micro-svc
 
   kafka1:
     image: confluentinc/cp-kafka:7.3.2
     hostname: kafka1
-    container_name: kafka1
+    container_name: micro-kafka1
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -164,7 +162,7 @@ services:
     depends_on:
       - zoo1
     networks:
-      - micro-mall
+      - micro-svc
 
   kafka-ui:
     container_name: kafka-ui
@@ -176,29 +174,29 @@ services:
     environment:
       DYNAMIC_CONFIG_ENABLED: "TRUE"
     networks:
-      - micro-mall
+      - micro-svc
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: micro-rabbitmq
     restart: always
     networks:
-      - micro-mall
+      - micro-svc
     ports:
       - "5672:5672"
       - "8081:15672"
     volumes:
-      - micro-mall-rabbitmq-data:/var/lib/rabbitmq:rw
+      - micro-svc-rabbitmq-data:/var/lib/rabbitmq:rw
       - ./rabbitmq3/logs/:/var/log/rabbitmq
     environment:
       - "LANG=C.UTF-8"
       - TZ=Asia/Shanghai
 
 networks:
-  micro-mall:
+  micro-svc:
 
 volumes:
-  micro-mall-pg-data:
-  micro-mall-mysql-data:
-  micro-mall-redis-data:
-  micro-mall-rabbitmq-data:
+  micro-svc-pg-data:
+  micro-svc-mysql-data:
+  micro-svc-redis-data:
+  micro-svc-rabbitmq-data:

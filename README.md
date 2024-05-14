@@ -14,8 +14,10 @@ elk 的容器编排，支持集群部署，官方示例
 
 ## micro-service
 
-微服务容器编排。`docker-compose-dev.yml`为项目基础设施，包括：etcd、mysql、postgresql、redis、elk、jaeger、rabbitmq、kafka 等等。
-`docker-compose.yml` 为 go-zero 的微服务项目部署，包括 rpc 服务、api 服务以及其他语言，比如 php 的网关服务。
+微服务容器编排，包含开发中常用到的中间件合集，如果某个服务不需要，可以注释掉。
+
+- `docker-compose-dev.yml`为项目基础设施，包括：etcd、mysql、postgresql、redis、elk、jaeger、rabbitmq、kafka 等等。
+- `docker-compose.yml` 为 go-zero 的微服务项目部署，包括 rpc 服务、api 服务以及其他语言，比如 java/php 的网关服务。
 
 运行：`docker-compose -f docker-compose-dev.yml up -d`
 
