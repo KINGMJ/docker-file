@@ -37,6 +37,12 @@ services:
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
       KAFKA_LOG_DIRS: /var/lib/kafka/data,/var/lib/kafka/data1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" # 禁用自动创建主题
+      KAFKA_AUTO_LEADER_REBALANCE_ENABLE: "false" # 禁用自动领导者重新平衡
+
+    volumes:
+      - ./kafka1/data:/var/lib/kafka/data
+      - ./kafka1/data1:/var/lib/kafka/data1
     depends_on:
       - zoo1
     networks:
@@ -65,7 +71,7 @@ services:
   #     - zoo1
   #   networks:
   #     - micro-svc
-      
+
   # kafka3:
   #   image: confluentinc/cp-kafka:7.3.2
   #   hostname: kafka3
@@ -104,4 +110,3 @@ services:
 
 networks:
   micro-svc:
-
