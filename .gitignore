@@ -1,5 +1,7 @@
 *.log
-etcd
 .DS_Store
+compose/micro-service/etcd/data
 compose/micro-service/elastic7.13.4/data
 compose/micro-service/kafka1/data*
+compose/micro-service/kafka2/data*
+compose/micro-service/kafka3/data*
