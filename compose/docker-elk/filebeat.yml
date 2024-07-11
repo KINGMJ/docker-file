@@ -1,0 +1,81 @@
+filebeat.inputs:
+  # 配置三个项目输入源，并区分success、error 日志
+
+  # merchant 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/merchant_logs/success.log
+    fields:
+      project: merchant
+      log_type: success
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/merchant_logs/error.log
+    fields:
+      project: merchant
+      log_type: error
+    fields_under_root: true
+
+  # store 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/store_logs/success.log
+    fields:
+      project: store
+      log_type: success
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/store_logs/error.log
+    fields:
+      project: store
+      log_type: error
+    fields_under_root: true
+
+  # platform 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/platform_logs/success.log
+    fields:
+      project: platform
+      log_type: success
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/platform_logs/error.log
+    fields:
+      project: platform
+      log_type: error
+    fields_under_root: true
+
+# 自动收集Docker的日志
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+# 日志处理器，用于在日志收集后进行进一步处理
+processors:
+  - add_docker_metadata: ~
+
+setup.kibana:
+  host: ${KIBANA_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"

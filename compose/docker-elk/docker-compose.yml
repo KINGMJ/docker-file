@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
@@ -70,8 +68,6 @@ services:
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata01:/usr/share/elasticsearch/data
-    networks:
-      - ${NETWORKS}
     ports:
       - ${ES_PORT}:9200
     environment:
@@ -106,6 +102,8 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+    networks:
+      - ${NETWORKS}
 
   es02:
     depends_on:
@@ -114,8 +112,6 @@ services:
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata02:/usr/share/elasticsearch/data
-    networks:
-      - ${NETWORKS}
     environment:
       - node.name=es02
       - cluster.name=${CLUSTER_NAME}
@@ -147,6 +143,8 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+    networks:
+      - ${NETWORKS}
 
   es03:
     depends_on:
@@ -155,8 +153,6 @@ services:
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata03:/usr/share/elasticsearch/data
-    networks:
-      - ${NETWORKS}
     environment:
       - node.name=es03
       - cluster.name=${CLUSTER_NAME}
@@ -188,7 +184,9 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
-
+    networks:
+      - ${NETWORKS}
+      
   kibana:
     depends_on:
       es01:
@@ -201,8 +199,6 @@ services:
     volumes:
       - certs:/usr/share/kibana/config/certs
       - kibanadata:/usr/share/kibana/data
-    networks:
-      - ${NETWORKS}
     ports:
       - ${KIBANA_PORT}:5601
     environment:
@@ -221,7 +217,38 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
-
+    networks:
+      - ${NETWORKS}
+      
+  filebeat:
+    depends_on:
+     es01:
+       condition: service_healthy
+    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
+    container_name: micro-filebeat
+    user: root
+    volumes:
+      # 证书
+      - certs:/usr/share/filebeat/certs
+      # 容器数据
+      - ./filebeatdata:/usr/share/filebeat/data
+      # 本地的配置文件
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      # 下面两个：用于采集Docker容器日志
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # 要采集的日志文件，将宿主机上的日志文件映射到容器中
+      - /Users/jerrymei/ShiEye/scm/merchant/logs:/logs/merchant_logs:ro
+      - /Users/jerrymei/ShiEye/scm/store/logs:/logs/store_logs:ro
+      - /Users/jerrymei/ShiEye/scm/platform/logs:/logs/platform_logs:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+      - KIBANA_HOSTS=http://kibana:5601
+    networks:
+      - ${NETWORKS}
+      
 volumes:
   certs:
     driver: local
@@ -235,5 +262,5 @@ volumes:
     driver: local
 
 networks:
-  micro-service_micro-mall:
-    external: true
+  micro-svc:
+    # external: true

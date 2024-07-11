@@ -1,15 +1,31 @@
 # docker-elk
 
-#### 介绍
+## 介绍
 
-elastic search docker 部署项目
+elasticsearch docker 部署项目，[官网示例](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file)
 
-#### 安装教程
+## 安装教程
 
-1. `.env`修改各种配置
-2. 网络需要设置为：指定的网络
+1. `.env`修改各种配置，网络需要设置为：指定的网络
+2. 启动容器
+3. 将证书拷贝出来，用于访问Elasticsearch
 
-#### 问题：
+```
+docker cp docker-elk-es01-1:/usr/share/elasticsearch/config/certs/ca/ca.crt .
+```
+
+## 访问
+
+```
+# 使用证书访问 elastic 服务
+curl -u elastic:a123456 https://localhost:9200 --cacert ./ca.crt
+
+# 不使用证书访问
+curl -u elastic:a123456 https://localhost:9200 --insecure
+```
+
+
+## 问题：
 
 在 linux 上，默认启动 kibana 的密码没有设置成功
 

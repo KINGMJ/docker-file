@@ -65,42 +65,7 @@ services:
     environment:
       - "LANG=C.UTF-8"
       - TZ=Asia/Shanghai
-
-  # 搜集 kafka 业务日志、存储 prometheus 监控数据 -
-  # Kafka for collecting business logs and storing Prometheus monitoring data
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
-    container_name: micro-elasticsearch
-    user: root
-    environment:
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=false
-      - TZ=Asia/Shanghai
-    volumes:
-      - ./elastic7.13.4/data:/usr/share/elasticsearch/data
-    restart: always
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - micro-svc
-
-  # 查看 elasticsearch 数据 - Kibana to view Elasticsearch data
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.13.4
-    container_name: micro-kibana
-    environment:
-      - elasticsearch.hosts=http://elasticsearch:9200
-      - TZ=Asia/Shanghai
-    restart: always
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - micro-svc
-
+      
   # jaeger链路追踪 — Jaeger for tracing
   jaeger:
     image: jaegertracing/all-in-one:1.42.0
