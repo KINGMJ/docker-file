@@ -6,3 +6,4 @@ compose/micro-service/kafka1/data*
 compose/micro-service/kafka2/data*
 compose/micro-service/kafka3/data*
 compose/docker-elk/filebeatdata
+compose/docker-elk/logs*

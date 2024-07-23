@@ -1,61 +1,134 @@
 filebeat.inputs:
   # 配置三个项目输入源，并区分success、error 日志
 
+  #  ----------- (●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●) ------------
+  # 【开发环境】
   # merchant 项目
   - type: log
     enabled: true
     paths:
-      - /logs/merchant_logs/success.log
+      - /logs/dev/merchant_logs/access.log*
     fields:
       project: merchant
-      log_type: success
+      log_type: access
+      env: dev
     fields_under_root: true
 
   - type: log
     enabled: true
     paths:
-      - /logs/merchant_logs/error.log
+      - /logs/dev/merchant_logs/error.log*
     fields:
       project: merchant
       log_type: error
+      env: dev
     fields_under_root: true
 
   # store 项目
   - type: log
     enabled: true
     paths:
-      - /logs/store_logs/success.log
+      - /logs/dev/store_logs/access.log*
     fields:
       project: store
-      log_type: success
+      log_type: access
+      env: dev
     fields_under_root: true
 
   - type: log
     enabled: true
     paths:
-      - /logs/store_logs/error.log
+      - /logs/dev/store_logs/error.log*
     fields:
       project: store
       log_type: error
+      env: dev
     fields_under_root: true
 
   # platform 项目
   - type: log
     enabled: true
     paths:
-      - /logs/platform_logs/success.log
+      - /logs/dev/platform_logs/access.log*
     fields:
       project: platform
-      log_type: success
+      log_type: access
+      env: dev
     fields_under_root: true
 
   - type: log
     enabled: true
     paths:
-      - /logs/platform_logs/error.log
+      - /logs/dev/platform_logs/error.log
     fields:
       project: platform
       log_type: error
+      env: dev
+    fields_under_root: true
+
+  #  ----------- (●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●) ------------
+  # 【测试环境】
+  # merchant 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/merchant_logs/access.log*
+    fields:
+      project: merchant
+      log_type: access
+      env: test
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/merchant_logs/error.log*
+    fields:
+      project: merchant
+      log_type: error
+      env: test
+    fields_under_root: true
+
+  # store 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/store_logs/access.log*
+    fields:
+      project: store
+      log_type: access
+      env: test
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/store_logs/error.log*
+    fields:
+      project: store
+      log_type: error
+      env: test
+    fields_under_root: true
+
+  # platform 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/platform_logs/access.log*
+    fields:
+      project: platform
+      log_type: access
+      env: test
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/platform_logs/error.log
+    fields:
+      project: platform
+      log_type: error
+      env: test
     fields_under_root: true
 
 # 自动收集Docker的日志

@@ -238,9 +238,15 @@ services:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # 要采集的日志文件，将宿主机上的日志文件映射到容器中
-      - /Users/jerrymei/ShiEye/scm/merchant/logs:/logs/merchant_logs:ro
-      - /Users/jerrymei/ShiEye/scm/store/logs:/logs/store_logs:ro
-      - /Users/jerrymei/ShiEye/scm/platform/logs:/logs/platform_logs:ro
+      - /Users/jerrymei/ShiEye/scm/merchant/logs:/logs/dev/merchant_logs:ro
+      - /Users/jerrymei/ShiEye/scm/store/logs:/logs/dev/store_logs:ro
+      - /Users/jerrymei/ShiEye/scm/platform/logs:/logs/dev/platform_logs:ro
+
+      # 采集其他服务器的日志，先手动用脚本同步文件到log目录，然后映射到容器中
+      - ./logs/test/merchant_logs:/logs/test/merchant_logs:ro
+      - ./logs/test/store_logs:/logs/test/store_logs:ro
+      - ./logs/test/platform_logs:/logs/test/platform_logs:ro
+
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
@@ -248,7 +254,7 @@ services:
       - KIBANA_HOSTS=http://kibana:5601
     networks:
       - ${NETWORKS}
-      
+
 volumes:
   certs:
     driver: local
