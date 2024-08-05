@@ -1,5 +1,5 @@
 filebeat.inputs:
-  # 配置三个项目输入源，并区分success、error 日志
+  # 配置项目输入源，并区分access、error 日志
 
   #  ----------- (●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●) ------------
   # 【开发环境】
@@ -66,6 +66,27 @@ filebeat.inputs:
       env: dev
     fields_under_root: true
 
+  # scheduler 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/dev/scheduler_logs/access.log*
+    fields:
+      project: scheduler
+      log_type: access
+      env: dev
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/dev/scheduler_logs/error.log
+    fields:
+      project: scheduler
+      log_type: error
+      env: dev
+    fields_under_root: true
+
   #  ----------- (●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●)(●'◡'●) ------------
   # 【测试环境】
   # merchant 项目
@@ -127,6 +148,27 @@ filebeat.inputs:
       - /logs/test/platform_logs/error.log
     fields:
       project: platform
+      log_type: error
+      env: test
+    fields_under_root: true
+
+  # scheduler 项目
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/scheduler_logs/access.log*
+    fields:
+      project: scheduler
+      log_type: access
+      env: test
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /logs/test/scheduler_logs/error.log
+    fields:
+      project: scheduler
       log_type: error
       env: test
     fields_under_root: true
