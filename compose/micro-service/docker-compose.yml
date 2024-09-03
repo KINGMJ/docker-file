@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   userrpc:
     image: user:v1
@@ -23,7 +21,7 @@ services:
       - micro-mall
 
   entrpc3:
-    image: ent:v2
+    image: ent:v1
     container_name: micro-ent-rpc3
     restart: always
     networks:
@@ -39,7 +37,7 @@ services:
       - userrpc
       - entrpc
     ports:
-      - "8889:8889"
+      - "8092:8092"
 
 networks:
   micro-mall:
