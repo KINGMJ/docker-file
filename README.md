@@ -46,8 +46,7 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 
 ## bash
 
-直接通过 shell 命令启动的 docker 程序
-
+一些常用的Shell脚本，比如：直接通过 shell 命令启动的 docker 程序。
 
 ## 项目端口占用
 
