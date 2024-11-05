@@ -43,6 +43,11 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 
 比较老的版本部署方式，弃用。使用 `docker-elk` 里面最新的集群部署方式
 
+### Jaeger & Prometheus
+
+https://www.jaegertracing.io/docs/1.20/cli/#jaeger-all-in-one-elasticsearch
+
+jaeger 使用内存进行存储，Elasticsearch 因为证书问题没有配置成功。
 
 ## bash
 
@@ -59,3 +64,4 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 - kibana: 5601
 - kafka-ui: 8080
 - rabbitmq: 5672 8081（ui）
+- jaeger: 16686

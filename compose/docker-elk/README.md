@@ -27,7 +27,7 @@ curl -u elastic:a123456 https://localhost:9200 --insecure
 
 ## 问题：
 
-在 linux 上，默认启动 kibana 的密码没有设置成功
+### 在 linux 上，默认启动 kibana 的密码没有设置成功。
 
 ```
 # 进入 kibana 容器执行下面命令，认证失败：
@@ -39,7 +39,7 @@ curl -u kibana_system:password https://es01:9200/ --insecure
 
 ```
 # 进入 elastic 容器
-docker exec -it docker-elk-es01-1 /bin/bash
+docker compose exec es01 bash
 
 # reset kibana_system password
 elasticsearch-reset-password -u kibana_system -i
@@ -54,4 +54,17 @@ elasticsearch-reset-password -u kibana_system -i
 docker compose restart kibana
 ```
 
-注意：8.0.0 版本测试可以重置密码，新版本会报错。
+注意：8.0.0 版本测试可以重置密码，新版本不允许这样修改，会报错。新版本采用下面的方式：
+
+```
+# 进入容器
+docker compose exec es01 bash
+cd /usr/share/elasticsearch/config/certs/ca
+
+# 使用 curl 命令修改密码
+curl -X POST --cacert ./ca.crt \                                       
+     -u elastic:a123456 \            
+     -H "Content-Type: application/json" \
+     https://es01:9200/_security/user/kibana_system/_password \
+     -d '{"password":"a123456"}'
+```
