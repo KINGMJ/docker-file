@@ -48,6 +48,7 @@ mysql 支持主从复制方案，配置文件在`conf.bak`里面
 https://www.jaegertracing.io/docs/1.20/cli/#jaeger-all-in-one-elasticsearch
 
 jaeger 使用内存进行存储，Elasticsearch 因为证书问题没有配置成功。
+grafana 的默认用户密码为：admin/admin，登录后修改为 admin/123456
 
 ## bash
 
@@ -64,4 +65,4 @@ jaeger 使用内存进行存储，Elasticsearch 因为证书问题没有配置�
 - kibana: 5601
 - kafka-ui: 8080
 - rabbitmq: 5672 8081（ui）
-- jaeger: 16686
+- jaeger: 16686 (ui)
